@@ -23,5 +23,5 @@ class InteractionModel(Base):
     ), nullable=False)
     timestamp: Mapped[datetime.datetime] = mapped_column(default=func.now())
 
-    post: Mapped["Post"] = relationship(back_populates="user_interactions")
-    user: Mapped["User"] = relationship(back_populates="post_interactions")
+    post: Mapped["PostModel"] = relationship(back_populates="user_interactions")
+    user: Mapped["UserModel"] = relationship(back_populates="post_interactions")

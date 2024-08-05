@@ -17,5 +17,5 @@ class CommentModel(Base):
     content: Mapped[str] = mapped_column(LONGTEXT)
     timestamp: Mapped[datetime.datetime] = mapped_column(default=func.now())
 
-    post: Mapped["Post"] = relationship(back_populates="user_comments")
-    user: Mapped["User"] = relationship(back_populates="post_comments")
+    post: Mapped["PostModel"] = relationship(back_populates="user_comments")
+    user: Mapped["UserModel"] = relationship(back_populates="post_comments")

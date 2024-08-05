@@ -31,10 +31,10 @@ class PostModel(Base):
     update_at: Mapped[Optional[datetime.datetime]]
     updated: Mapped[bool] = mapped_column(default=False)
 
-    user: Mapped["User"] = relationship(back_populates="posts")
+    user: Mapped["UserModel"] = relationship(back_populates="posts")
 
-    user_comments: Mapped[List["User"]] = relationship(back_populates="post", 
+    user_comments: Mapped[List["CommentModel"]] = relationship(back_populates="post", 
                                                        cascade="all, delete", passive_deletes=True)
 
-    user_interactions: Mapped[List["Interaction"]] = relationship(back_populates="post", 
+    user_interactions: Mapped[List["InteractionModel"]] = relationship(back_populates="post", 
                                                                   cascade="all, delete", passive_deletes=True)
