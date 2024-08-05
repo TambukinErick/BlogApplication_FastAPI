@@ -12,9 +12,9 @@ class CommentModel(Base):
     __tablename__ = "Comment"
 
     comment_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    post_id: Mapped[int] = mapped_column(ForeignKey("Post.post_id"), primary_key=True)
-    user_id: Mapped[int] = mapped_column(ForeignKey("User.user_id"), primary_key=True)
-    content: Mapped[LONGTEXT]
+    post_id: Mapped[int] = mapped_column(ForeignKey("Post.post_id", ondelete="CASCADE"), primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("User.user_id", ondelete="CASCADE"), primary_key=True)
+    content: Mapped[str] = mapped_column(LONGTEXT)
     timestamp: Mapped[datetime.datetime] = mapped_column(default=func.now())
 
     post: Mapped["Post"] = relationship(back_populates="user_comments")

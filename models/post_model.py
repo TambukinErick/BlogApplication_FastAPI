@@ -18,9 +18,9 @@ class PostModel(Base):
     __tablename__ = "Post"
 
     post_id: Mapped[int] = mapped_column(autoincrement=True, primary_key=True)
-    author_id: Mapped[int] = mapped_column(ForeignKey("User.user_id"), ondelete="CASCADE")
+    author_id: Mapped[int] = mapped_column(ForeignKey("User.user_id", ondelete="CASCADE"))
     title: Mapped[str] = mapped_column(String(255))
-    content: Mapped[LONGTEXT]
+    content: Mapped[str] = mapped_column(LONGTEXT)
     category: Mapped[PostCategory] = mapped_column(Enum(*get_args(PostCategory),
         name="post_category",
         create_constraint=True,
@@ -33,6 +33,8 @@ class PostModel(Base):
 
     user: Mapped["User"] = relationship(back_populates="posts")
 
-    user_comments: Mapped[List["User"]] = relationship(back_populates="post")
+    user_comments: Mapped[List["User"]] = relationship(back_populates="post", 
+                                                       cascade="all, delete", passive_deletes=True)
 
-    user_interactions: Mapped[List["Interaction"]] = relationship(back_populates="post")
+    user_interactions: Mapped[List["Interaction"]] = relationship(back_populates="post", 
+                                                                  cascade="all, delete", passive_deletes=True)

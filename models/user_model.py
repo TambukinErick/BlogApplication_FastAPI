@@ -17,10 +17,14 @@ class UserModel(Base):
     email: Mapped[str] = mapped_column(String(100), unique=True)
     mobile: Mapped[str] = mapped_column(String(15), unique=True)
     registered_at: Mapped[datetime.datetime] = mapped_column(default=func.now())
-    profile: Mapped[LONGTEXT]
+    profile: Mapped[str] = mapped_column(LONGTEXT)
 
     posts: Mapped[List["Post"]] = relationship(back_populates="user", cascade="all, delete", passive_deletes=True)
 
-    post_comments: Mapped[List["Comment"]] = relationship(back_populates="user")
+    post_comments: Mapped[List["Comment"]] = relationship(back_populates="user", 
+                                                          cascade="all, delete", 
+                                                          passive_deletes=True)
     
-    post_interactions: Mapped[List["Interaction"]] = relationship(back_populates="user")
+    post_interactions: Mapped[List["Interaction"]] = relationship(back_populates="user", 
+                                                                  cascade="all, delete", 
+                                                                  passive_deletes=True)
