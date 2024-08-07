@@ -1,6 +1,7 @@
-from fastapi import Depends, FastAPI
-import logging
+from fastapi import FastAPI
+
 from .models import comment_model, interaction_model, post_model, user_model
+
 from .database import engine
 from .routers import comment_router, interaction_router, post_router, user_router
 
@@ -21,3 +22,13 @@ app.include_router(user_router.router)
 @app.get("/Home/")
 async def root():
     return {"message": "Hello World"}
+
+
+
+
+
+
+
+
+
+
