@@ -34,6 +34,9 @@ class UserRepository:
         user = self.session.query(UserModel).filter_by(username = username).first()
         return bool(user)
 
+    def get_user_id(self, username: str) -> int:
+        user = self.session.query(UserModel).filter_by(username = username).first()
+        return user.user_id
     def update(self, user: Type[UserModel], data: UpdateUser) -> UserOutput:
         for key, value in data.model_dump(exclude_none=False).items():
             setattr(user, key, value)
