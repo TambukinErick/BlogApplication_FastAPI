@@ -28,4 +28,12 @@ class UpdateUser(BaseModel):
     mobile: str
     profile: str
 
+class SystemUser(BaseModel):
+    user_id: int
+    email: str
+    password: str
 
+
+class DeleteUser(BaseModel):
+    email: str
+    password: str

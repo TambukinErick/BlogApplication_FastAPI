@@ -16,11 +16,22 @@ class UserRepository:
         self.session.refresh(user)
         return {"message":"user created successfully"}
 
+    def get_all(self, skip: int, limit: int) -> List[Optional[UserOutput]]:
+        users =  self.session.query(UserModel).offset(skip).limit(limit).all()
+        return [UserOutput(**user.__dict__) for user in users]
+
     def get_user(self, email: str):
         return self.session.query(UserModel).filter_by(email = email).first()
+    
+    def get_by_username(self, username: str):
+        return self.session.query(UserModel).filter_by(username = username).first()
         
     def user_exists(self, email: str) -> bool:
         user = self.session.query(UserModel).filter_by(email = email).first()
+        return bool(user)
+    
+    def user_exists_by_username(self, username: str) -> bool:
+        user = self.session.query(UserModel).filter_by(username = username).first()
         return bool(user)
 
     def update(self, user: Type[UserModel], data: UpdateUser) -> UserOutput:
@@ -30,7 +41,12 @@ class UserRepository:
         self.session.refresh(user)
         return UserOutput(**user.__dict__)
     
-    
+
+    def delete(self, user: Type[UserModel]) -> bool:
+        self.session.delete(user)
+        self.session.commit()
+        return True
+
 
 
 
