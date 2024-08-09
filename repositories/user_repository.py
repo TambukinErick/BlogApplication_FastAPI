@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
-
+import logging
 from ..models.user_model import UserModel
 from ..schemas.user_schemas import RegisterUser, UserOutput, UpdateUser
 from typing import List, Optional, Type
