@@ -33,6 +33,10 @@ class UserRepository:
     def user_exists_by_username(self, username: str) -> bool:
         user = self.session.query(UserModel).filter_by(username = username).first()
         return bool(user)
+    
+    def user_exists_by_id(self, user_id: str) -> bool:
+        user = self.session.query(UserModel).filter_by(user_id = user_id).first()
+        return bool(user)
 
     def get_user_id(self, username: str) -> int:
         user = self.session.query(UserModel).filter_by(username = username).first()

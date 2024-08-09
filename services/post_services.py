@@ -1,13 +1,12 @@
 from fastapi import HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from typing import List, Annotated
+from typing import List
 
 from ..repositories.post_repository import PostRepository
 from ..repositories.user_repository import UserRepository
 from ..schemas.token_schema import Token, TokenData
 from ..schemas.post_schemas import CreatePost, PublishedPost, UpdatePost, PostOutput, PostCategory
-from ..utils import get_hashed_password, verify_password
 
 
 class PostService:

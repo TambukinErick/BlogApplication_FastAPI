@@ -41,29 +41,29 @@ async def register_user(user: RegisterUser, session: Session = Depends(get_db)):
     _service = UserService(session)
     return _service.register_user(user)
 
-@router.get("/token/profile", summary='Get details of currently logged in user')
+@router.get("/profile", summary='Get details of currently logged in user')
 async def get_me(user: UserOutput = Depends(get_current_user_user)):
     return user
 
-@router.get("/token/users", response_model=list[UserOutput])
+@router.get("/users", response_model=list[UserOutput])
 async def read_users(skip: int = 0, limit: int = 100, session: Session = Depends(get_db), 
                      user: UserOutput = Depends(get_current_user_user)):
     _service = UserService(session)
     return _service.get_all(skip, limit)
 
-@router.get("/token/{username}", response_model=UserOutput)
+@router.get("/{username}", response_model=UserOutput)
 async def read_user(username: str, session: Session = Depends(get_db), 
                     user: UserOutput = Depends(get_current_user_user)):
     _service = UserService(session)
     return _service.get_user_by_username(username)
 
-@router.put("/token/update_profile")
+@router.put("/update_profile")
 async def update_profile(data: UpdateUser, session: Session = Depends(get_db), 
                          user: UserOutput = Depends(get_current_user_user)):
     _service = UserService(session)
     return _service.update(data, user)
 
-@router.delete("/token/delete")
+@router.delete("/delete")
 async def delete_account(data: DeleteUser, session: Session = Depends(get_db), 
                          user: UserOutput = Depends(get_current_user_user)):
     _service = UserService(session)

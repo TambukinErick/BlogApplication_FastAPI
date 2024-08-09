@@ -13,8 +13,8 @@ user_model.Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title="Blog App"
 )
-
-app.include_router(comment_router.router)
+post_router.router.include_router(comment_router.router)
+# app.include_router(comment_router.router)
 app.include_router(interaction_router.router)
 app.include_router(post_router.router)
 app.include_router(user_router.router)

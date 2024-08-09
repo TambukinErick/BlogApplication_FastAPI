@@ -26,7 +26,6 @@ class UserService:
         hashed_password = get_hashed_password(data.password)
 
         data.password = hashed_password
-        print(data.password)
         return self.user_repo.create(data)
     
     def get_user(self, email: str):
