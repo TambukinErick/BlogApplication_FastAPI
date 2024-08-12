@@ -27,7 +27,7 @@ async def read_posts(username: str, skip: int = 0, limit: int = 100, session: Se
     _service = PostService(session)
     return _service.get_all(username, skip, limit)
 
-@router.get("/{post_id}/articles", response_model=PostOutput)
+@router.get("/{post_id}/article", response_model=PostOutput)
 async def read_post(post_id: int, session: Session = Depends(get_db)):
     _service = PostService(session)
     return _service.get_post(post_id)
@@ -36,6 +36,16 @@ async def read_post(post_id: int, session: Session = Depends(get_db)):
 async def read_post_by_category(category: PostCategory, skip: int = 0, limit: int = 100, session: Session = Depends(get_db)):
     _service = PostService(session)
     return _service.get_by_category(category, skip, limit)
+
+@router.get('/most_interacted')
+async def read_most_interacted_article(session: Session = Depends(get_db)):
+    _service = PostService(session)
+    return _service.get_by_interactions()
+
+@router.get('/most_commented')
+async def read_most_commented_article(session: Session = Depends(get_db)):
+    _service = PostService(session)
+    return _service.get_by_comments()
 
 @router.put("/{post_id}/edit", response_model=PostOutput)
 async def edit_post(data: UpdatePost, session: Session = Depends(get_db), user: UserOutput = Depends(get_current_user_post)):
@@ -46,4 +56,5 @@ async def edit_post(data: UpdatePost, session: Session = Depends(get_db), user: 
 async def delete(post_id: int, session: Session = Depends(get_db), user: UserOutput = Depends(get_current_user_post)):
     _service = PostService(session)
     return _service.delete(post_id)
+
 

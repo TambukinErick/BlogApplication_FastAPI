@@ -19,13 +19,13 @@ class PostService:
     
     def get_all(self, username: str, skip: int, limit: int):
         if not self.user_repository.user_exists_by_username(username):
-            raise HTTPException(status_code=404, details="User doesnt exist")
+            raise HTTPException(status_code=404, detail="User doesnt exist")
         user_id = self.user_repository.get_user_id(username) 
         return self.post_repository.get_all_by_user(user_id, skip, limit)
     
     def get_post(self, post_id) -> PostOutput:
         if not self.post_repository.post_exists(post_id):
-            raise HTTPException(status_code=404, details="Post doesnt exist")
+            raise HTTPException(status_code=404, detail="Post doesnt exist")
         post = self.post_repository.get_post(post_id)
         return PostOutput(**post.__dict__)
     
@@ -57,4 +57,10 @@ class PostService:
             raise HTTPException(status_code=404, detail="Post doesnt exist")
         post = self.post_repository.get_post(post_id)
         return self.post_repository.delete(post)
+    
+    def get_by_interactions(self):
+        return self.post_repository.get_by_interactions()
+    
+    def get_by_comments(self):
+        return self.post_repository.get_by_comments()
         

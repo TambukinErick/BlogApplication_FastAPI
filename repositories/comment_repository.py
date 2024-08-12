@@ -15,7 +15,7 @@ class CommentRepository:
         self.session.commit()
         self.session.refresh(comment)
         return CommentOutput(**comment.__dict__)
-    
+
     def get_comment(self, comment_id):
         return self.session.query(CommentModel).filter_by(comment_id = comment_id).first()
     

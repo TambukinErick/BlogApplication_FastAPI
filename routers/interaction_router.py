@@ -21,6 +21,12 @@ async def interact(post_id: int, data: CreateInteraction, session: Session = Dep
     _service = InteractionService(session)
     return _service.create(post_id, user.user_id, data)
 
+# SELECT posts.*, count(interactions.post_id) as num_of_interactions 
+# FROM Post as posts LEFT JOIN Interaction as interactions ON (posts.post_id = interactions.post_id) 
+# group by posts.post_id;
+
+
+
 @router.get('/all', response_model=list[InteractionOutput])
 async def get_all_post_interactions(post_id, skip: int = 0, limit: int = 100, session: Session = Depends(get_db)):
     _service = InteractionService(session)

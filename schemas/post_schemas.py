@@ -37,8 +37,11 @@ class PublishedPost(CreatePost):
     publication_date: Optional[datetime.datetime] = None
 
 class PostOutput(CreatePost):
+    post_id: int
     publication_date: Optional[datetime.datetime] = None
     update_at: Optional[datetime.datetime] = None
+    interactions: Optional[int] = Field(default=0)
+    comments: Optional[int] = Field(default=0)
 
 
 class UpdatePost(PublishedPost):
