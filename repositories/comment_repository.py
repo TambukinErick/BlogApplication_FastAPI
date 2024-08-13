@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import and_
+from sqlalchemy import and_, select
 
 from ..models.comment_model import CommentModel
 from ..schemas.comment_schemas import CreateComment, CommentOutput, EditComment
@@ -21,6 +21,7 @@ class CommentRepository:
     
     def get_all_under_post(self, post_id: int, skip: int, limit: int) -> List[Optional[CommentOutput]]:
         comments = self.session.query(CommentModel).filter_by(post_id = post_id).offset(skip).limit(limit).all()
+        comments = self.session.scalar(select(CommentModel).where(CommentModel.post_id == post_id)).all()
         return [CommentOutput(**comment.__dict__) for comment in comments]
     
     def get_all_under_commenter(self, user_id: int, skip: int, limit: int) -> List[Optional[CommentOutput]]:

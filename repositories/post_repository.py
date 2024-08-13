@@ -23,7 +23,6 @@ class PostRepository:
         return [PostOutput(**post.__dict__) for post in posts]
     
     def get_all_by_category(self, category: str, skip: int, limit: int) -> List[Optional[PostOutput]]:
-
         posts = self.session.scalars(select(PostModel).filter(PostModel.category == category).offset(skip).limit(limit)).all()
         return [PostOutput(**post.__dict__) for post in posts]
     
@@ -84,6 +83,16 @@ class PostRepository:
             )
             output.append(temp_post_output)
         return output
+
+    def get_by_publish_date(self, publish_date, skip: int, limit: int) -> List[Optional[PostOutput]]:
+        posts = self.session.query(PostModel).filter_by(publication_date=publish_date).offset(skip).limit(limit).all()
+        return [PostOutput(**post.__dict__) for post in posts]
+    
+    def get_by_date_range(self, start_date, end_date, skip: int, limit: int) -> List[Optional[PostOutput]]:
+        posts = self.session.query(PostModel).filter(and_(
+            PostModel.publication_date <= end_date, PostModel.publication_date >= start_date
+        )).offset(skip).limit(limit).all()
+        return [PostOutput(**post.__dict__) for post in posts]
 
     def post_exists(self, post_id: int) -> bool:
         post = self.session.query(PostModel).filter_by(post_id = post_id).first()

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import and_
+from sqlalchemy import and_, select
 import logging
 from ..models.user_model import UserModel
 from ..schemas.user_schemas import RegisterUser, UserOutput, UpdateUser

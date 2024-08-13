@@ -1,4 +1,4 @@
-from fastapi import Depends, APIRouter
+from fastapi import Depends, APIRouter, Query
 from sqlalchemy.orm import Session
 
 from typing import Annotated
@@ -37,6 +37,20 @@ async def read_post_by_category(category: PostCategory, skip: int = 0, limit: in
     _service = PostService(session)
     return _service.get_by_category(category, skip, limit)
 
+@router.get("/filter", response_model=list[PostOutput])
+async def read_post_by_date(publish_date: Annotated[datetime, Query(
+    description="<YYYY-MM-DD>T<HH-MM-SS>"
+)], skip: int = 0, limit: int = 100, session: Session = Depends(get_db)):
+    _service = PostService(session)
+    return _service.get_by_publish_date(publish_date, skip, limit)
+
+@router.get("/filter/range", response_model=list[PostOutput])
+async def read_post_by_date_range(start_date: Annotated[datetime, Query(description="<YYYY-MM-DD>T<HH-MM-SS>")], 
+                            end_date: Annotated[datetime, Query(description="<YYYY-MM-DD>T<HH-MM-SS>")], 
+                            skip: int = 0, limit: int = 100, session: Session = Depends(get_db)):
+    _service = PostService(session)
+    return _service.get_by_date_range(start_date, end_date, skip, limit)
+                            
 @router.get('/most_interacted')
 async def read_most_interacted_article(session: Session = Depends(get_db)):
     _service = PostService(session)

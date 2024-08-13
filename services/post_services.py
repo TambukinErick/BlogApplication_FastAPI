@@ -29,6 +29,12 @@ class PostService:
         post = self.post_repository.get_post(post_id)
         return PostOutput(**post.__dict__)
     
+    def get_by_publish_date(self, publish_date, skip: int = 0, limit: int = 100) -> List[PostOutput]:
+        return self.post_repository.get_by_publish_date(publish_date, skip, limit)
+    
+    def get_by_date_range(self, start_date, end_date, skip: int = 0, limit: int = 100) -> List[PostOutput]:
+        return self.post_repository.get_by_date_range(start_date, end_date, skip, limit)
+    
     def get_by_category(self, category: str, skip: int = 0, limit: int = 100) -> List[PostOutput]:
          if category not in PostCategory:
              raise HTTPException(status_code=404, detail="Category does not exist")
